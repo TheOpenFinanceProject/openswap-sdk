@@ -1,18 +1,13 @@
 import { Contract } from '@ethersproject/contracts'
-//import { getNetwork } from '@ethersproject/networks'
-import { Web3Provider } from '@ethersproject/providers'
+
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { TokenAmount } from './entities/fractions/tokenAmount'
 import { Pair } from './entities/pair'
-import IUniswapV2Pair from 'openswap-core/build/contracts/IUniswapV2Pair.json'
+import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import invariant from 'tiny-invariant'
 import ERC20 from './abis/ERC20.json'
 import { ChainId } from './constants'
 import { Token } from './entities/token'
-
-const HMY_RPC_URL = 'https://api.s0.b.hmny.io';
-const Web3 = require('web3');
-const web3 = new Web3(HMY_RPC_URL);
-
 
 let TOKEN_DECIMALS_CACHE: { [chainId: number]: { [address: string]: number } } = {
   [ChainId.MAINNET]: {
@@ -40,7 +35,7 @@ export abstract class Fetcher {
   public static async fetchTokenData(
     chainId: ChainId,
     address: string,
-    provider = new Web3Provider(web3),
+    provider = new JsonRpcProvider("https://api.s0.t.hmny.io", {chainId: 1666600000, name: "Harmony"}),
     symbol?: string,
     name?: string
   ): Promise<Token> {
@@ -69,7 +64,7 @@ export abstract class Fetcher {
   public static async fetchPairData(
     tokenA: Token,
     tokenB: Token,
-    provider = new Web3Provider(web3),
+    provider = new JsonRpcProvider("https://api.s0.t.hmny.io", {chainId: 1666600000, name: "Harmony"})
   ): Promise<Pair> {
     invariant(tokenA.chainId === tokenB.chainId, 'CHAIN_ID')
     const address = Pair.getAddress(tokenA, tokenB)

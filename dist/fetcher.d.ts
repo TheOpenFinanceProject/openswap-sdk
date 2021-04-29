@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import { Pair } from './entities/pair';
 import { ChainId } from './constants';
 import { Token } from './entities/token';
@@ -18,12 +18,12 @@ export declare abstract class Fetcher {
      * @param symbol optional symbol of the token
      * @param name optional name of the token
      */
-    static fetchTokenData(chainId: ChainId, address: string, provider?: Web3Provider, symbol?: string, name?: string): Promise<Token>;
+    static fetchTokenData(chainId: ChainId, address: string, provider?: JsonRpcProvider, symbol?: string, name?: string): Promise<Token>;
     /**
      * Fetches information about a pair and constructs a pair from the given two tokens.
      * @param tokenA first token
      * @param tokenB second token
      * @param provider the provider to use to fetch the data
      */
-    static fetchPairData(tokenA: Token, tokenB: Token, provider?: Web3Provider): Promise<Pair>;
+    static fetchPairData(tokenA: Token, tokenB: Token, provider?: JsonRpcProvider): Promise<Pair>;
 }
